@@ -1,0 +1,116 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+model users {
+  id String @id @default(uuid())
+  email String @unique
+  user_name String
+  password String
+  created_at DateTime @default(now())
+
+  opinions opinions[]
+
+  publications publications[]
+
+  comments comments[]
+
+  following follow[] @relation("following")
+
+  followers follow[] @relation("follower")
+}
+
+model books {
+  id String @id @default(uuid())
+  title String
+  author String
+  edited_by String
+  published_date DateTime
+  synopsis String
+  categories category?
+  genres genre?
+
+  opinions opinions[]
+
+  publications publications[]
+}
+
+
+enum category {
+  roman
+  nouvelle
+  poésie
+  théâtre
+  bande_dessinee
+  roman_graphique
+  manga
+  biographie
+  science_culture
+  vie_pratique_loisirs
+  scolaire
+}
+
+enum genre {
+  polar
+  science_fiction
+  fantasy
+  horreur
+  romance
+  aventure
+  historique
+  comedie
+  drame
+}
+
+model opinions{
+  id String @id @default(uuid())
+  user_id String
+  book_id String
+  rating Int
+  comment String
+  created_at DateTime
+  user users @relation(fields: [user_id], references: [id])
+  book books @relation(fields: [book_id], references: [id])
+}
+
+model publications {
+  id String @id @default(uuid())
+  user_id String
+  book_id String
+  content String
+  publication_date DateTime
+  user users @relation(fields: [user_id], references: [id])
+  book books @relation(fields: [book_id], references: [id])
+
+  comments comments[]
+}
+
+model comments {
+  id String @id @default(uuid())
+  publication_id String
+  user_id String
+  content String
+  comment_date DateTime
+  publication publications @relation(fields: [publication_id], references: [id])
+  user users @relation(fields: [user_id], references: [id])
+}
+
+model follow{
+  id String @id @default(uuid())
+  follower_id String
+  following_id String
+  follow_date DateTime
+  follower users @relation("follower", fields: [follower_id], references: [id])
+  following users @relation("following", fields: [following_id], references: [id])
+
+  @@unique([follower_id, following_id], name: "follower_id_following_id")
+}
