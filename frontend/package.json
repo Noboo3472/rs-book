@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "private":"true",
+  "private": "true",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "vite",
@@ -21,7 +21,9 @@
     "react-dom": "^19.2.7"
   },
   "devDependencies": {
+    "@tailwindcss/vite": "^4.3.1",
     "@vitejs/plugin-react": "^6.0.2",
+    "tailwindcss": "^4.3.1",
     "vite": "^8.0.16"
   }
 }
