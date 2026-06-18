@@ -4,8 +4,16 @@ import bookRoutes from './src/routes/bookRoute.js';
 import followRoutes from './src/routes/followRoutes.js';
 import publicationsRoutes from './src/routes/publicationRoutes.js';
 import commentRoutes from './src/routes/commentsRoutes.js';
+import cors from 'cors';
 
 const app = express();
+
+app.use(cors({
+  origin: 'http://localhost:5173',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
+}));
+
 
 app.use(express.json({
   verify: (req, res, buf) => {

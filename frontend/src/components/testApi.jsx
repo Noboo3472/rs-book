@@ -6,7 +6,7 @@ export function TestApi() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    api.get('/api/posts') // ← Change selon ta route backend
+    api.get('/book/books/author/J.%20R.%20R.%20Tolkien') // ← Change selon ta route backend
       .then(res => setData(res.data))
       .catch(err => setError(err.message));
   }, []);
