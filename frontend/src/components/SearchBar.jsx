@@ -78,7 +78,7 @@ export function SearchBar() {
                   onClick={() => handleResultClick(`/books/${book.id}`)}
                   className="px-4 py-3 border-b hover:bg-gray-50 cursor-pointer transition"
                 >
-                  <h4 className="font-semibold text-sm">{book.title}</h4>
+                  <h4 className="font-semibold text-gray-600">{book.title}</h4>
                   <p className="text-xs text-gray-600">{book.author}</p>
                 </div>
               ))}

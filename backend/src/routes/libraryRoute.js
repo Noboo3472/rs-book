@@ -7,6 +7,7 @@ import {
   removeBookFromLibrary,
   searchBooks,
   searchUsers,
+  createAndAddBookToLibrary,
 } from '../services/libraryServices.js';
 
 const router = express.Router();
@@ -22,6 +23,34 @@ router.post('/library/add', async (req, res) => {
     const result = await addBookToLibrary(user_id, book_id);
     res.status(201).json({
       message: 'Livre ajouté à la bibliothèque avec succès',
+      library: result,
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Route pour créer un nouveau livre et l'ajouter à la bibliothèque
+router.post('/library/add-new', async (req, res) => {
+  const { user_id, title, author, edited_by, published_date, synopsis, categories, genres } = req.body;
+  try {
+    if (!user_id || !title || !author) {
+      return res.status(400).json({ error: 'user_id, title et author sont requis' });
+    }
+
+    const bookData = {
+      title,
+      author,
+      edited_by: edited_by || '',
+      published_date: published_date || new Date().toISOString(),
+      synopsis: synopsis || '',
+      categories: categories || null,
+      genres: genres || null,
+    };
+
+    const result = await createAndAddBookToLibrary(user_id, bookData);
+    res.status(201).json({
+      message: 'Livre créé et ajouté à la bibliothèque avec succès',
       library: result,
     });
   } catch (error) {

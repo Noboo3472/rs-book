@@ -172,3 +172,72 @@ export const searchUsers = async (query) => {
     throw error;
   }
 };
+
+// Créer un nouveau livre et l'ajouter à la bibliothèque
+export const createAndAddBookToLibrary = async (user_id, bookData) => {
+  try {
+    const { title, author, edited_by, published_date, synopsis, categories, genres } = bookData;
+
+    // Vérifier si le livre existe déjà
+    const existingBook = await prisma.books.findFirst({
+      where: {
+        title: {
+          equals: title,
+          mode: 'insensitive',
+        },
+        author: {
+          equals: author,
+          mode: 'insensitive',
+        },
+      },
+    });
+
+    let book;
+    if (existingBook) {
+      // Si le livre existe déjà, vérifier s'il est dans la bibliothèque
+      const existingLibraryEntry = await prisma.library.findUnique({
+        where: {
+          user_id_book_id: {
+            user_id,
+            book_id: existingBook.id,
+          },
+        },
+      });
+
+      if (existingLibraryEntry) {
+        throw new Error('Ce livre est déjà dans votre bibliothèque');
+      }
+
+      book = existingBook;
+    } else {
+      // Créer le nouveau livre
+      book = await prisma.books.create({
+        data: {
+          title,
+          author,
+          edited_by,
+          published_date: new Date(published_date),
+          synopsis,
+          categories,
+          genres,
+        },
+      });
+    }
+
+    // Ajouter le livre à la bibliothèque
+    const libraryEntry = await prisma.library.create({
+      data: {
+        user_id,
+        book_id: book.id,
+        is_read: false,
+      },
+      include: {
+        book: true,
+      },
+    });
+
+    return libraryEntry;
+  } catch (error) {
+    throw error;
+  }
+};

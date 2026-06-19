@@ -3,6 +3,7 @@ import { useAuth } from '../context/useAuth';
 import { api } from '../api/client';
 import { useNavigate } from 'react-router-dom';
 import { TopNav } from '../components/TopNav';
+import { AddBookModal } from '../components/AddBookModal';
 
 export function Library() {
   const { user, logout } = useAuth();
@@ -10,6 +11,8 @@ export function Library() {
   const [library, setLibrary] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [filter, setFilter] = useState('all'); // all, read, unread
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
 
   useEffect(() => {
     fetchLibrary();
@@ -75,6 +78,15 @@ export function Library() {
     navigate('/login');
   };
 
+  const handleBookAdded = (newLibraryEntry) => {
+    // Ajouter le nouveau livre au début de la liste
+    setLibrary([newLibraryEntry, ...library]);
+    setSuccessMessage(
+      `📚 "${newLibraryEntry.book.title}" ajouté à votre bibliothèque !`
+    );
+    setTimeout(() => setSuccessMessage(''), 3000);
+  };
+
   const filteredLibrary = library.filter((entry) => {
     if (filter === 'read') return entry.is_read;
     if (filter === 'unread') return !entry.is_read;
@@ -90,6 +102,23 @@ export function Library() {
 
       {/* Main Content */}
       <main className="container mx-auto mt-6 p-4">
+        {/* Success Message */}
+        {successMessage && (
+          <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-6">
+            {successMessage}
+          </div>
+        )}
+
+        {/* Add New Book Button */}
+        <div className="mb-6">
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-semibold transition flex items-center gap-2"
+          >
+            ➕ Ajouter un nouveau livre
+          </button>
+        </div>
+
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
           <div className="bg-white p-6 rounded-lg shadow-md text-center">
@@ -218,6 +247,14 @@ export function Library() {
           </div>
         )}
       </main>
+
+      {/* Add Book Modal */}
+      <AddBookModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        user={user}
+        onBookAdded={handleBookAdded}
+      />
     </div>
   );
 }
