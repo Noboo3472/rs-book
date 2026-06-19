@@ -23,7 +23,16 @@ export const createComment = async(publication_id,user_id,content)=>{
 export const getAllComments = async (publication_id) =>{
     try{
         const comments = await prisma.comments.findMany({
-            where : {publication_id}
+            where : { publication_id },
+            orderBy: { comment_date: 'asc' },
+            include: {
+                user: {
+                    select: {
+                        id: true,
+                        user_name: true,
+                    },
+                },
+            },
         });
         return comments;
     }catch(error){
