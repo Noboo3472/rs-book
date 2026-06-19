@@ -112,10 +112,3 @@ frontend/
     main.jsx
     App.jsx
 ```
-
-## Améliorations possibles
-
-- Ajouter un serveur de développement React plus complet (`vite`, `webpack`, `create-react-app` ou `vite`)
-- Ajouter des tests unitaires et d'intégration
-- Documenter les routes API avec Swagger ou Postman
-- Ajouter un fichier `.env.example`
