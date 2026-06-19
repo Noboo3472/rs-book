@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/useAuth';
 import { SearchBar } from '../components/SearchBar';
+import { TopNav } from '../components/TopNav';
 import { useState, useEffect } from 'react';
 import { api } from '../api/client';
 
@@ -48,32 +49,7 @@ export function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      {/* Header */}
-      <header className="bg-blue-600 text-white p-4 shadow-lg">
-        <div className="container mx-auto">
-          <div className="flex justify-between items-center mb-4">
-            <h1 className="text-2xl font-bold">Mon Projet Full-Stack</h1>
-            <div className="flex gap-2">
-              <button
-                onClick={() => navigate('/library')}
-                className="bg-green-500 px-4 py-2 rounded hover:bg-green-600 transition font-semibold"
-              >
-                📚 Ma Bibliothèque
-              </button>
-              <button
-                onClick={handleLogout}
-                className="bg-red-500 px-4 py-2 rounded hover:bg-red-600 transition"
-              >
-                Déconnexion
-              </button>
-            </div>
-          </div>
-          {/* Search Bar */}
-          <SearchBar />
-        </div>
-      </header>
-
-      {/* Welcome Section */}
+      <TopNav title="Mon Projet Full-Stack" />
       <main className="container mx-auto mt-6 p-4">
         <div className="bg-white p-8 rounded-lg shadow-md mb-6">
           <h2 className="text-2xl font-bold mb-4">

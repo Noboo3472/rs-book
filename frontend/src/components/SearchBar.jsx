@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { api } from '../api/client';
 
 export function SearchBar() {
+  const navigate = useNavigate();
   const [query, setQuery] = useState('');
   const [results, setResults] = useState({ books: [], users: [] });
   const [isLoading, setIsLoading] = useState(false);
@@ -38,9 +40,10 @@ export function SearchBar() {
     return () => clearTimeout(searchTimeout);
   }, [query]);
 
-  const handleResultClick = () => {
+  const handleResultClick = (path) => {
     setShowResults(false);
     setQuery('');
+    navigate(path);
   };
 
   return (
@@ -51,7 +54,7 @@ export function SearchBar() {
         onChange={(e) => setQuery(e.target.value)}
         onFocus={() => query.length > 0 && setShowResults(true)}
         placeholder="Rechercher un livre ou un utilisateur..."
-        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
 
       {showResults && (query.length > 0 || results.books.length > 0 || results.users.length > 0) && (
@@ -72,7 +75,7 @@ export function SearchBar() {
               {results.books.map((book) => (
                 <div
                   key={book.id}
-                  onClick={handleResultClick}
+                  onClick={() => handleResultClick(`/books/${book.id}`)}
                   className="px-4 py-3 border-b hover:bg-gray-50 cursor-pointer transition"
                 >
                   <h4 className="font-semibold text-sm">{book.title}</h4>
@@ -90,11 +93,10 @@ export function SearchBar() {
               {results.users.map((user) => (
                 <div
                   key={user.id}
-                  onClick={handleResultClick}
-                  className="px-4 py-3 border-b hover:bg-gray-50 cursor-pointer transition"
+                  onClick={() => handleResultClick(`/profile/${user.id}`)}
+                  className="px-4 py-3 border-b hover:bg-blue-50 cursor-pointer transition"
                 >
-                  <h4 className="font-semibold text-sm">@{user.user_name}</h4>
-                  <p className="text-xs text-gray-600">{user.email}</p>
+                  <h4 className="font-semibold text-base text-gray-900">@{user.user_name}</h4>
                 </div>
               ))}
             </>

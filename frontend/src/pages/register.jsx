@@ -16,7 +16,7 @@ export function Register() {
 
     try {
       await register(name, email, password);
-      navigate('/dashboard');
+      navigate('/feed');
     } catch (err) {
       setError(err.response?.data?.message || 'Erreur de création de compte');
     }

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../context/useAuth';
 import { api } from '../api/client';
 import { useNavigate } from 'react-router-dom';
+import { TopNav } from '../components/TopNav';
 
 export function Library() {
   const { user, logout } = useAuth();
@@ -85,21 +86,7 @@ export function Library() {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      {/* Header */}
-      <header className="bg-blue-600 text-white p-4 shadow-lg">
-        <div className="container mx-auto flex justify-between items-center">
-          <div>
-            <h1 className="text-2xl font-bold">Ma Bibliothèque</h1>
-            <p className="text-sm text-blue-100">{user?.name}</p>
-          </div>
-          <button
-            onClick={handleLogout}
-            className="bg-red-500 px-4 py-2 rounded hover:bg-red-600 transition"
-          >
-            Déconnexion
-          </button>
-        </div>
-      </header>
+      <TopNav title="Ma Bibliothèque" />
 
       {/* Main Content */}
       <main className="container mx-auto mt-6 p-4">

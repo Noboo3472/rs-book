@@ -15,7 +15,7 @@ export function Login() {
 
     try {
       await login(email, password);
-      navigate('/dashboard');
+      navigate('/feed');
     } catch (err) {
       setError(err.response?.data?.message || 'Erreur de connexion');
     }

@@ -5,6 +5,9 @@ import followRoutes from './src/routes/followRoutes.js';
 import publicationsRoutes from './src/routes/publicationRoutes.js';
 import commentRoutes from './src/routes/commentsRoutes.js';
 import libraryRoutes from './src/routes/libraryRoute.js';
+import userRoutes from './src/routes/userRoutes.js';
+import feedRoutes from './src/routes/feedRoutes.js';
+import opinionRoutes from './src/routes/opinionRoutes.js';
 import cors from 'cors';
 
 const app = express();
@@ -29,11 +32,17 @@ app.use('/book', bookRoutes);
 //route pour les fonctions follow
 app.use('/follow',followRoutes);
 //route pour les fonctions de publications
-app.use('/publications',publicationsRoutes);
+app.use('/publications', publicationsRoutes);
 //routes pour les fonctions commentaires
-app.use('/comments',commentRoutes)
+app.use('/comments', commentRoutes);
+//routes pour les utilisateurs
+app.use('/users', userRoutes);
+//routes pour le fil d'actualité
+app.use('/', feedRoutes);
+//routes pour les avis et le détail des livres
+app.use('/opinions', opinionRoutes);
 //routes pour la bibliothèque
-app.use('/api', libraryRoutes)
+app.use('/api', libraryRoutes);
 
 
 //mise en place du serveur
