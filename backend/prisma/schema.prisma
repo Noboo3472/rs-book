@@ -27,6 +27,8 @@ model users {
   following follow[] @relation("following")
 
   followers follow[] @relation("follower")
+
+  library library[]
 }
 
 model books {
@@ -42,6 +44,8 @@ model books {
   opinions opinions[]
 
   publications publications[]
+
+  library library[]
 }
 
 
@@ -113,4 +117,16 @@ model follow{
   following users @relation("following", fields: [following_id], references: [id])
 
   @@unique([follower_id, following_id], name: "follower_id_following_id")
+}
+
+model library {
+  id String @id @default(uuid())
+  user_id String
+  book_id String
+  is_read Boolean @default(false)
+  added_at DateTime @default(now())
+  user users @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  book books @relation(fields: [book_id], references: [id], onDelete: Cascade)
+
+  @@unique([user_id, book_id], name: "user_id_book_id")
 }

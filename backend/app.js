@@ -4,6 +4,7 @@ import bookRoutes from './src/routes/bookRoute.js';
 import followRoutes from './src/routes/followRoutes.js';
 import publicationsRoutes from './src/routes/publicationRoutes.js';
 import commentRoutes from './src/routes/commentsRoutes.js';
+import libraryRoutes from './src/routes/libraryRoute.js';
 import cors from 'cors';
 
 const app = express();
@@ -31,6 +32,8 @@ app.use('/follow',followRoutes);
 app.use('/publications',publicationsRoutes);
 //routes pour les fonctions commentaires
 app.use('/comments',commentRoutes)
+//routes pour la bibliothèque
+app.use('/api', libraryRoutes)
 
 
 //mise en place du serveur

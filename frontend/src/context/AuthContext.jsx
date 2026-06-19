@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react';
+import { createContext, useState, useEffect } from 'react';
 import { api } from '../api/client';
 
 export const AuthContext = createContext();
@@ -42,10 +42,20 @@ export function AuthProvider({ children }) {
     const storedUser = localStorage.getItem('user');
     const storedToken = localStorage.getItem('token');
     if (storedUser && storedToken) {
-      setUser(JSON.parse(storedUser));
-      setToken(storedToken);
+      try {
+        setUser(JSON.parse(storedUser));
+        setToken(storedToken);
+      } catch (error) {
+        console.error('Erreur lors du chargement de l\'utilisateur stocké', error);
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+      }
     }
   };
+
+  useEffect(() => {
+    loadUser();
+  }, []);
 
   return (
     <AuthContext.Provider value={{ user, token, login, register, logout, loadUser }}>
