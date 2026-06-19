@@ -1,16 +1,21 @@
-import { TestApi } from "./components/testApi";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
+import { Login } from './pages/login';
+import { Register } from './pages/register';
+import { Dashboard } from './pages/dashboard';
 
 function App() {
   return (
-    <div className="min-h-screen bg-gray-100">
-      <header className="bg-blue-600 text-white p-4">
-        <h1 className="text-2xl font-bold">Mon Projet Full-Stack</h1>
-      </header>
-      
-      <main className="container mx-auto mt-6">
-        <TestApi />
-      </main>
-    </div>
+    <BrowserRouter>
+      <AuthProvider>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/" element={<Login />} />
+        </Routes>
+      </AuthProvider>
+    </BrowserRouter>
   );
 }
 

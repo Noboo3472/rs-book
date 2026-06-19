@@ -5,7 +5,7 @@ import prisma from '../db.js';
 
 const signup = async (req, res) => {
   try {
-    const { username, email, password } = req.body;
+    const { name, email, password } = req.body;
 // Vérifier si l'utilisateur existe déjà
     const existingUser = await prisma.users.findUnique({
       where: { email }
@@ -19,7 +19,7 @@ const signup = async (req, res) => {
 //création de l'utilisateur dans la base de données
     const newUser = await prisma.users.create({
       data: {
-        user_name: username,
+        user_name: name,
         email,
         password: hashedPassword,
         created_at: new Date()
