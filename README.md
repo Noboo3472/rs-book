@@ -1,6 +1,5 @@
 #  RS-BOOK - Plateforme Sociale de Partage de Livres
 
-Version : 1.0.0 | Dernière mise à jour : 19 juin 2026
 - `backend/` : API Node.js avec Express, Prisma et PostgreSQL
 - `frontend/` : application React simple
 
